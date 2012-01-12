@@ -54,11 +54,12 @@ class PosGateway():
         return request
 
 
-    def _dotransaction(self, transaction):
-        '''run a credit card transaction'''
+    def _dotransaction(self, transaction, value='random garbage'):
+        '''run a transaction, some don't have a value but suds needs
+        something there to generate the XML properly'''
         request = self._newrequest()
-        request['Ver1.0']['Transaction'] = transaction
-        print request
+        request['Ver1.0']['Transaction'][transaction] = value
+        #print request
         self.client.service.DoTransaction(request['Ver1.0'])
 
 
@@ -82,5 +83,4 @@ if __name__ == '__main__':
     pos = PosGateway('12345', '12345', '12345678', '12345678A', '$password',
                         developerid='012345', versionnbr='1234')
     pos.testcredentials()
-    #print test
     
