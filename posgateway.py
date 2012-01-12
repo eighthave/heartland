@@ -31,9 +31,10 @@ class PosGateway():
         self.clerkid = clerkid
 
 
-    def _newrequest(self):
+    def _newrequest(self, transaction, value='random garbage'):
         '''create a new PosRequest and populate the headers'''
         request = pos.client.factory.create('ns0:PosRequest')
+        request['Ver1.0']['Transaction'][transaction] = value
         # required
         request['Ver1.0']['Header']['LicenseId'] = self.licenseid
         request['Ver1.0']['Header']['SiteId'] = self.siteid
@@ -54,21 +55,20 @@ class PosGateway():
         return request
 
 
-    def _dotransaction(self, transaction, value='random garbage'):
+    def _dotransaction(self, posrequest):
         '''run a transaction, some don't have a value but suds needs
         something there to generate the XML properly'''
-        request = self._newrequest()
-        request['Ver1.0']['Transaction'][transaction] = value
-        self.client.service.DoTransaction(request['Ver1.0'])
-        self.last_response = self.client.last_received()
-        responsemsg = self.last_response.getChild('soap:Envelope').getChild('soap:Body').getChild('PosResponse').getChild('Ver1.0').getChild('Header').getChild('GatewayRspMsg').getText()
+        posresponse = self.client.service.DoTransaction(posrequest['Ver1.0'])
+        responsemsg = posresponse['Ver1.0']['Header']['GatewayRspMsg']
         if responsemsg != 'Success':
             raise Exception('Transaction failed: ' + responsemsg)
+        else:
+            return posresponse
 
 
     def testcredentials(self):
         '''test the credentials setup in the object'''
-        self._dotransaction('TestCredentials')
+        print self._dotransaction(self._newrequest('TestCredentials'))
 
 
     def creditsale(self, carddata, amount, allowdup='N'):
