@@ -59,8 +59,11 @@ class PosGateway():
         something there to generate the XML properly'''
         request = self._newrequest()
         request['Ver1.0']['Transaction'][transaction] = value
-        #print request
         self.client.service.DoTransaction(request['Ver1.0'])
+        self.last_response = self.client.last_received()
+        responsemsg = self.last_response.getChild('soap:Envelope').getChild('soap:Body').getChild('PosResponse').getChild('Ver1.0').getChild('Header').getChild('GatewayRspMsg').getText()
+        if responsemsg != 'Success':
+            raise Exception('Transaction failed: ' + responsemsg)
 
 
     def testcredentials(self):
@@ -75,8 +78,8 @@ class PosGateway():
 if __name__ == '__main__':
     import logging
     logging.basicConfig(level=logging.INFO)
-    logging.getLogger('suds.client').setLevel(logging.DEBUG)
-    logging.getLogger('suds.transport').setLevel(logging.DEBUG)
+    #logging.getLogger('suds.client').setLevel(logging.DEBUG)
+    #logging.getLogger('suds.transport').setLevel(logging.DEBUG)
     #logging.getLogger('suds.xsd.schema').setLevel(logging.DEBUG)
     #logging.getLogger('suds.wsdl').setLevel(logging.DEBUG)
 
