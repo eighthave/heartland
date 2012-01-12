@@ -10,44 +10,77 @@ class PosGateway():
 
     url = 'https://posgateway.cert.secureexchange.net/Hps.Exchange.PosGateway.UAT/PosGatewayService.asmx?wsdl'
 
-    def __init__(self, licenseid=None, siteid=None, deviceid=None,
-                 username=None, password=None, tokenvalue=None,
+    def __init__(self, licenseid, siteid, deviceid,
+                 username, password, tokenvalue=None,
                  sitetrace=None, developerid=None, versionnbr=None,
                  clerkid=None):
+        if len(username) > 20:
+            raise Exception('UserName must be no longer than 20 characters')
         self.client = suds.client.Client(PosGateway.url)
-        self.soapheaders = dict()
-        if licenseid:
-            self.soapheaders['LicenseId'] = licenseid
-        if siteid:
-            self.soapheaders['SideId'] = siteid
-        if deviceid:
-            self.soapheaders['DeviceId'] = deviceid
-        if username:
-            self.soapheaders['UserName'] = username
-        if password:
-            self.soapheaders['Password'] = password
-        if tokenvalue:
-            self.soapheaders['TokenValue'] = tokenvalue
-        if sitetrace:
-            self.soapheaders['SiteTrace'] = sitetrace
-        if developerid:
-            self.soapheaders['DeveloperID'] = developerid
-        if versionnbr:
-            self.soapheaders['VersionNbr'] = versionnbr
-        if clerkid:
-            self.soapheaders['ClerkID'] = clerkid
-        self.client.set_options(soapheaders=self.soapheaders)
-        print self.client
+        # required
+        self.licenseid = licenseid
+        self.siteid = siteid
+        self.deviceid = deviceid
+        self.username = username
+        self.password = password
+        # optional
+        self.tokenvalue = tokenvalue
+        self.sitetrace = sitetrace
+        self.developerid = developerid
+        self.versionnbr = versionnbr
+        self.clerkid = clerkid
 
-    def dotransaction(self, carddata, amount, allowdup='N'):
+
+    def _newrequest(self):
+        '''create a new PosRequest and populate the headers'''
+        request = pos.client.factory.create('ns0:PosRequest')
+        # required
+        request['Ver1.0']['Header']['LicenseId'] = self.licenseid
+        request['Ver1.0']['Header']['SiteId'] = self.siteid
+        request['Ver1.0']['Header']['DeviceId'] = self.deviceid
+        request['Ver1.0']['Header']['UserName'] = self.username
+        request['Ver1.0']['Header']['Password'] = self.password
+        # optional
+        if self.tokenvalue:
+            request['Ver1.0']['Header']['TokenValue'] = self.tokenvalue
+        if self.sitetrace:
+            request['Ver1.0']['Header']['SiteTrace'] = self.sitetrace
+        if self.developerid:
+            request['Ver1.0']['Header']['DeveloperID'] = self.developerid
+        if self.versionnbr:
+            request['Ver1.0']['Header']['VersionNbr'] = self.versionnbr
+        if self.clerkid:
+            request['Ver1.0']['Header']['ClerkID'] = self.clerkid
+        return request
+
+
+    def _dotransaction(self, transaction):
         '''run a credit card transaction'''
-        self.client.service.DoTransaction
+        request = self._newrequest()
+        request['Ver1.0']['Transaction'] = transaction
+        print request
+        self.client.service.DoTransaction(request['Ver1.0'])
 
+
+    def testcredentials(self):
+        '''test the credentials setup in the object'''
+        self._dotransaction('TestCredentials')
+
+
+    def creditsale(self, carddata, amount, allowdup='N'):
+        pass
 
 
 if __name__ == '__main__':
     import logging
     logging.basicConfig(level=logging.INFO)
     logging.getLogger('suds.client').setLevel(logging.DEBUG)
+    logging.getLogger('suds.transport').setLevel(logging.DEBUG)
+    #logging.getLogger('suds.xsd.schema').setLevel(logging.DEBUG)
+    #logging.getLogger('suds.wsdl').setLevel(logging.DEBUG)
 
-    client = PosGateway()
+    pos = PosGateway('12345', '12345', '12345678', '12345678A', '$password',
+                        developerid='012345', versionnbr='1234')
+    pos.testcredentials()
+    #print test
+    
