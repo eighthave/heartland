@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+
 class E3Reader():
     '''class for handling the Heartland E3 credit card reader'''
 
@@ -24,7 +25,6 @@ class E3Reader():
         return firstname, lastname
 
 
-
 if __name__ == '__main__':
 
     # data I faked so it has full names
@@ -34,6 +34,11 @@ if __name__ == '__main__':
     cards = []
     cards.append(fakedata)
     cards.append(morefakedata)
+
+    f = open('testdata.txt', 'r')
+    lines = f.readlines()
+    for line in lines:
+        cards.append(line.rstrip('\n'))
 
     for card in cards:
         firstname, lastname = E3Reader.parsename(card)
