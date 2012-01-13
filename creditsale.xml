@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <soap:Body>
+    <PosRequest xmlns="http://Hps.Exchange.PosGateway">
+      <Ver1.0>
+        <Header>
+          <LicenseId>10001</LicenseId>
+          <SiteId>101</SiteId>
+          <DeviceId>1</DeviceId>
+          <UserName>user01</UserName>
+          <Password>password</Password>
+          <SiteTrace>0001</SiteTrace>
+        </Header>
+        <Transaction>
+          <CreditSale>
+            <Block1>
+              <CardData>
+                <TrackData>;5473500000000014=25121019999888877776?</TrackData>
+              </CardData>
+              <Amt>0000000017.00</Amt>
+              <AllowDup>N</AllowDup>
+            </Block1>
+          </CreditSale>
+        </Transaction>
+      </Ver1.0>
+    </PosRequest>
+  </soap:Body>
+</soap:Envelope>
