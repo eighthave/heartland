@@ -31,7 +31,7 @@ class PosGateway():
         self.clerkid = clerkid
 
 
-    def _newrequest(self, transaction, value='random garbage'):
+    def _newrequest(self, transaction, value='PlaceholderText'):
         '''create a new PosRequest and populate the headers'''
         request = pos.client.factory.create('ns0:PosRequest')
         request['Ver1.0']['Transaction'][transaction] = value
@@ -55,9 +55,27 @@ class PosGateway():
         return request
 
 
+    def _newcreditrequest(self, transaction, e3data, amount):
+        '''create a new PosRequest for a credit transaction'''
+
+        block1 = dict()
+        block1['Block1'] = dict()
+        block1['Block1']['Amt'] = amount
+        block1['Block1']['CardData'] = dict()
+        block1['Block1']['CardData']['TrackData'] = e3data
+        block1['Block1']['CardData']['EncryptionData'] = dict()
+        block1['Block1']['CardData']['EncryptionData']['Version'] = '01'
+
+        posrequest = self._newrequest(transaction)
+        posrequest['Ver1.0']['Transaction'][transaction] = block1
+        return posrequest
+
+
     def _dotransaction(self, posrequest):
-        '''run a transaction, some don't have a value but suds needs
-        something there to generate the XML properly'''
+        """
+        run a transaction, some don't have a value but suds needs
+        something there to generate the XML properly
+        """
         posresponse = self.client.service.DoTransaction(posrequest['Ver1.0'])
         responsemsg = posresponse['Ver1.0']['Header']['GatewayRspMsg']
         if responsemsg != 'Success':
@@ -73,16 +91,14 @@ class PosGateway():
 
     def creditsale(self, e3data, amount):
         '''make a CreditSale transaction of a given amount'''
-        posrequest = self._newrequest('CreditSale')
-        block1 = dict()
-        block1['Block1'] = dict()
-        block1['Block1']['Amt'] = amount
-        block1['Block1']['CardData'] = dict()
-        block1['Block1']['CardData']['TrackData'] = e3data
-        block1['Block1']['CardData']['EncryptionData'] = dict()
-        block1['Block1']['CardData']['EncryptionData']['Version'] = '01'
-        posrequest['Ver1.0']['Transaction']['CreditSale'] = block1
-        print self._dotransaction(posrequest)
+        posrequest = self._newcreditrequest('CreditSale', e3data, amount)
+        return self._dotransaction(posrequest)
+
+
+    def creditreversal(self, e3data, amount):
+        '''make a CreditReversal transaction of a given amount'''
+        posrequest = self._newcreditrequest('CreditReversal', e3data, amount)
+        return self._dotransaction(posrequest)
 
 
 if __name__ == '__main__':
@@ -95,8 +111,8 @@ if __name__ == '__main__':
 
     pos = PosGateway('12345', '12345', '12345678', '12345678A', '$password',
                         developerid='012345', versionnbr='1234')
-    pos.testcredentials()
     #pos.testcredentials()
     e3data = open('testdata.txt', 'r').readline().rstrip('\n')
-    pos.creditsale(e3data, 5.00)
+    print pos.creditsale(e3data, 5.23)
+    print pos.creditreversal(e3data, 5.00)
     
