@@ -71,8 +71,18 @@ class PosGateway():
         print self._dotransaction(self._newrequest('TestCredentials'))
 
 
-    def creditsale(self, carddata, amount, allowdup='N'):
-        pass
+    def creditsale(self, e3data, amount):
+        '''make a CreditSale transaction of a given amount'''
+        posrequest = self._newrequest('CreditSale')
+        block1 = dict()
+        block1['Block1'] = dict()
+        block1['Block1']['Amt'] = amount
+        block1['Block1']['CardData'] = dict()
+        block1['Block1']['CardData']['TrackData'] = e3data
+        block1['Block1']['CardData']['EncryptionData'] = dict()
+        block1['Block1']['CardData']['EncryptionData']['Version'] = '01'
+        posrequest['Ver1.0']['Transaction']['CreditSale'] = block1
+        print self._dotransaction(posrequest)
 
 
 if __name__ == '__main__':
@@ -86,4 +96,7 @@ if __name__ == '__main__':
     pos = PosGateway('12345', '12345', '12345678', '12345678A', '$password',
                         developerid='012345', versionnbr='1234')
     pos.testcredentials()
+    #pos.testcredentials()
+    e3data = open('testdata.txt', 'r').readline().rstrip('\n')
+    pos.creditsale(e3data, 5.00)
     
