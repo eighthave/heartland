@@ -101,6 +101,11 @@ class PosGateway():
         return self._dotransaction(posrequest)
 
 
+    def batchclose(self):
+        '''close a batch of transactions on the POS Gateway'''
+        return self._dotransaction(self._newrequest('BatchClose'))
+
+
 if __name__ == '__main__':
     import logging
     logging.basicConfig(level=logging.INFO)
