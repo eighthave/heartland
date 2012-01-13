@@ -33,7 +33,7 @@ class PosGateway():
 
     def _newrequest(self, transaction, value='PlaceholderText'):
         '''create a new PosRequest and populate the headers'''
-        request = pos.client.factory.create('ns0:PosRequest')
+        request = self.client.factory.create('ns0:PosRequest')
         request['Ver1.0']['Transaction'][transaction] = value
         # required
         request['Ver1.0']['Header']['LicenseId'] = self.licenseid
@@ -86,7 +86,7 @@ class PosGateway():
 
     def testcredentials(self):
         '''test the credentials setup in the object'''
-        print self._dotransaction(self._newrequest('TestCredentials'))
+        return self._dotransaction(self._newrequest('TestCredentials'))
 
 
     def creditsale(self, e3data, amount):
