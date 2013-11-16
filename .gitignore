@@ -1,1 +1,4 @@
 *.pyc
+build/
+dist/
+heartland.egg-info/
