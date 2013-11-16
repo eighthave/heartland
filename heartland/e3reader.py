@@ -60,7 +60,8 @@ class E3Reader():
                 self.number = track2data[0].split(';')[1]
             if self.expirationdate == None:
                 self.expirationdate = track2data[1][0:4]
-        if re.match('3[08]', self.number[0:2]):
+        # figure out credit card type by first few digits in the card number
+        if re.match('3[68]', self.number[0:2]) or re.match('30[0-5]', self.number[0:3]):
             self.type = 'Diners Club'
         elif self.number[0:2] == '35':
             self.type = 'JCB'
@@ -72,8 +73,17 @@ class E3Reader():
             self.type = 'Dankort'
         elif re.match('5[1-5]', self.number[0:2]):
             self.type = 'MasterCard'
-        elif self.number[0:2] == '60':
+        elif self.number[0:4] == '6011' or self.number[0:3] == '622' \
+                or re.match('64[4-9]', self.number[0:3]) \
+                or self.number[0:2] == '65':
             self.type = 'Discover'
+        elif self.number[0:4] in ['5018', '5020', '5038', '5893', '6304',
+                                '6759', '6761', '6762', '6763', '0604']:
+            self.type = 'Maestro'
+        elif self.number[0:4] in ['6304', '6706', '6771', '6709']:
+            self.type = 'Laser'
+        elif self.number[0:2] == '62' or self.number[0:2] == '88':
+            self.type = 'China UnionPay'
         elif self.number[0] == '7':
             self.type = 'Dankort'
         else:
