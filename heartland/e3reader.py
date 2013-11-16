@@ -90,11 +90,13 @@ if __name__ == '__main__':
     fakedata = '''<E1050811%B4888900000008888^STEINER/HANS-CHRISTO^131100000000000000000?|qwt0+QpJUgQvcVlI9MimCLW0KUcBV7ccf/qTg8/qh3NY4D1sx53if4AASd/r|+++++++EeBFsgfSl|11;4888900000008888=131100000000000?|6rc8dpYmsFHtpIgTyLLpmbWxF2M|+++++++EeBFosfSl|00|||/wECAQECAoFGsgEH3AELTDT6jRZwb3NAc2VjdXJlZXhjaGFuZ2UubmV0u5elwS+b/8HwW7RluF6gIRs447/4SXo0sSw27V1SFOC90dVWpOuB7CgsQ4ERzyhvCA8+/IUmvqsaJK2E+qSHOSGk4XFnysGeiZlSo2jCuc0gvamjjMXrvtlPByXonqwpjJVtFQTOFIxGXpSxOoqr/Sq/gJbb5jCanA4ZiDYVXjgAjhg0+iAJRwUOzCgT+Urq+PMKoYMK5BTyCh0e/jb6oboOJnOq|>'''
     morefakedata = '''<E1052411%B4588240000002202^STEINER/CHRIS ^1211000000000000000000000000000?|vIKypvzcmTtYme8w6bCg12BxsjuzYO5zs56r+tWy7maokt6j5gnzI/XtTv8Fdf4ViE6E|+++++++7SspSskLx|11;4588240000002202=121100000000000?|AY+qjai0Wv6Dm4NwFmwanUmm7Wu|+++++++7SspSjkLx|00|||/wECAQECAoFGAgEH3AELTsT6jRZwb3NAc2VjdXJlZXhjaGFuZ2UubmV0u5elwS+b/8HwW7RluF6gIRs447/4SXo0fSw27V1SFOC90dVWpOuB7CgcQ4ERzyhvCA8+/IUmvqsaJK2E+qSHOSGk4XFnysGeiZlSo2jCuc0gvamjjMXrvtlPByXonqspjJVtFQTOFIxGXpSxOoqr/Sq/gJbb5jCanA4ZiDYVXjgAjhg0+iAJRwUOzCgT+Urq+PMKoYMK5BTyCh0e/jb6oboOJnOq|>'''
     notevenacreditcard = '''<E1033600|||20;813631526=3227?|7ehyjRUBc6p2Ckr3l44OUqhjkCx||00|||/wECAQECAoFGAgEH3QsPTDT6jRZwb3NAc2VjdXJlZXhjaGFuZ2UubmV0lAym4RaaasMpmwHUjeEhbcq+EIMVG8+xo+/YVzU2h3CF25CF7+L/DqELzZYl9m9Y4JJtZ2vsMeRkdk6u6W4t3AG1HHS2fU08eMQeaUv77+t0aT1zDaQAaGfIodBDOpDXksU0EP3an5H59Uikg/T8dzbOm/I+bRbYcalObc3g7I8AGoYvWFvAYtNfzPYcXbu5V+BDqoXUnfPl3Z/wX7yj53t8lAd1|>'''
+    frommanualpdf = '''<E1051910%B1234120000001234^CARDUSER/JOHN^030500000000000000000000000000000?|9SzzRL+ST/5gZ/u7nijpodPzZLs3BA6Hkauy1Mjpenl97Q8heL/ZQvwDPveolHY3i|+++++++3HlMzHk5a|10;1234120000001234=0305000000000000?|9eryKeDXdk/cnN8HMxC0HPpB7+q|+++++++3HlMzHk5a|00|||/wECAQECAoFGAgEH1AIBSkFvYxZwb3NAc2VjdXJlZXhjaGFuZ2UubmV0iIXVzitSbjk2AARLlFE7CvsTb/ZgpUPTjtuAG6OWzlBbsAZCbe7SHIU06j+baz4UrkF2JE2U0O0wwiZuN9eOMl5AWFvnLp9aNNRORots7jrjjxT8owbXjZdp3BXSjnnXdgaVEzKC6uU16wDAFmV6GzrkOMUNpYKcpaEPv2Ekt1cA/sO9AyVfLV5e9VfQ6R/zIhMLTkYEh0xWSk8q1oZtCE9yEG7/|>'''
 
     cards = []
     cards.append(fakedata)
     cards.append(morefakedata)
     cards.append(notevenacreditcard)
+    cards.append(frommanualpdf)
 
     f = open('../testdata.txt', 'r')
     lines = f.readlines()
