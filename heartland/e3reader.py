@@ -72,12 +72,8 @@ class E3Reader():
             self.type = 'Dankort'
         elif re.match('5[1-5]', self.number[0:2]):
             self.type = 'MasterCard'
-        elif self.number[0:2] == '56':
-            self.type = 'Australian BankCard'
         elif self.number[0:2] == '60':
             self.type = 'Discover'
-        elif self.number[0:2] == '63':
-            self.type = 'Switch/Solo'
         elif self.number[0] == '7':
             self.type = 'Dankort'
         else:
