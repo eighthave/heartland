@@ -1,0 +1,9 @@
+include creditsale.xml
+include LICENSE.txt
+include MANIFEST.in
+include README.txt
+include setup.py
+include testdata.txt
+include heartland/e3reader.py
+include heartland/__init__.py
+include heartland/posgateway.py
