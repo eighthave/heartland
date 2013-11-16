@@ -9,29 +9,29 @@ class E3Reader():
 
     FIELD_DELIMITER = chr(0x7C)
 
-    def __init__(self, data):
+    def __init__(self, swipedata):
         '''initialize an instance with a full swipe'''
-        if not E3Reader.isvalid(card):
-            raise Exception('Not valid card data: ' + card)
-        self.data = data
+        if not E3Reader.isvalid(swipedata):
+            raise Exception('Not valid card data: ' + swipedata)
+        self.data = swipedata
         self._parse()
 
     @staticmethod
-    def isvalid(card):
+    def isvalid(swipedata):
         '''validate that we got a complete packet'''
-        if re.match("^<X1.*\|>$", card):
+        if re.match("^<X1.*\|>$", swipedata):
             # "X1 = Error condition exist"
             return False
-        if re.match("^<E1.+\|>$", card):
+        if re.match("^<E1.+\|>$", swipedata):
             # E1 = Regular data output
-            if len(card.split('|')) != 11:
+            if len(swipedata.split('|')) != 11:
                 return False
             return True
         return False
 
     def _parse(self):
         '''given a complete string from a Heartland E3 reader, parse data into a dict'''
-        self.fields = card.split('|')
+        self.fields = self.data.split('|')
         self.track1 = None
         self.track2 = None
         self.number = None
