@@ -13,7 +13,7 @@ setup(name='heartland',
       license='PSF License',
       author='Hans-Christoph Steiner',
       author_email='hans@eds.org',
-      url='https://github.com/eighthave/pyidtech',
+      url='https://github.com/eighthave/heartland',
       modules = ['heartland'],
       classifiers = [
           'Intended Audience :: Developers',
