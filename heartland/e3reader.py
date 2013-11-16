@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 
 # this is based on the document "E3 Wedge Reader Programmer's Manual Rev A.7.pdf"
