@@ -61,25 +61,25 @@ class E3Reader():
             if self.expirationdate == None:
                 self.expirationdate = track2data[1][0:4]
         if re.match('3[08]', self.number[0:2]):
-            self.type = 'dinersclub'
+            self.type = 'Diners Club'
         elif self.number[0:2] == '35':
-            self.type = 'jcb'
+            self.type = 'JCB'
         elif self.number[0:2] == '37':
-            self.type = 'americanexpress'
+            self.type = 'American Express'
         elif self.number[0] == '4':
-            self.type = 'visa'
+            self.type = 'Visa'
         elif self.number[0:2] == '50':
-            self.type = 'dankort'
+            self.type = 'Dankort'
         elif re.match('5[1-5]', self.number[0:2]):
-            self.type = 'mastercard'
+            self.type = 'MasterCard'
         elif self.number[0:2] == '56':
-            self.type = 'australianbankcard'
+            self.type = 'Australian BankCard'
         elif self.number[0:2] == '60':
-            self.type = 'discover'
+            self.type = 'Discover'
         elif self.number[0:2] == '63':
-            self.type = 'switchsolo'
+            self.type = 'Switch/Solo'
         elif self.number[0] == '7':
-            self.type = 'dankort'
+            self.type = 'Dankort'
         else:
             self.type = 'UNKNOWN'
 
