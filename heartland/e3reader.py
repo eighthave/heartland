@@ -96,7 +96,7 @@ if __name__ == '__main__':
     cards.append(morefakedata)
     cards.append(notevenacreditcard)
 
-    f = open('testdata.txt', 'r')
+    f = open('../testdata.txt', 'r')
     lines = f.readlines()
     for line in lines:
         cards.append(line.rstrip('\n'))

@@ -14,7 +14,7 @@ setup(name='heartland',
       author='Hans-Christoph Steiner',
       author_email='hans@eds.org',
       url='https://github.com/eighthave/pyidtech',
-      py_modules = ['e3reader'],
+      modules = ['heartland'],
       classifiers = [
           'Intended Audience :: Developers',
           'License :: OSI Approved :: Python Software Foundation License',
